@@ -1,9 +1,21 @@
 # VulnDash — Vulnerability Management Dashboard
 
+![CI](https://github.com/ariantoekaputra99/vuln-dashboard/actions/workflows/ci.yml/badge.svg) ![Java 21](https://img.shields.io/badge/Java-21-blue) ![Spring Boot 3.5](https://img.shields.io/badge/Spring%20Boot-3.5-6db33f) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791)
+
 Mengagregasi hasil scan **Trivy**, **OWASP ZAP**, dan **Nuclei** ke satu tempat: temuan dideduplikasi, diprioritaskan
 dengan **CVSS + EPSS + kritikalitas aset (+ CISA KEV)**, dilacak lewat **workflow remediasi & SLA**, dan dilaporkan otomatis.
 
 Stack: Java 21 · Spring Boot 3.5 · Spring Data JPA · Flyway · PostgreSQL (H2 untuk demo/test) · dashboard web tanpa dependensi (vanilla JS + SVG).
+
+## Tampilan
+
+![Ringkasan dashboard](docs/dashboard-overview.png)
+
+| Daftar temuan (filter, sort, prioritas) | Detail temuan + workflow remediasi |
+|---|---|
+| ![Temuan](docs/findings.png) | ![Detail temuan](docs/finding-detail.png) |
+
+_Screenshot memakai data demo (`VULNDASH_DEMO_DATA=true`); aset dan nilai EPSS/KEV pada data demo bersifat ilustrasi._
 
 ## Fitur
 
