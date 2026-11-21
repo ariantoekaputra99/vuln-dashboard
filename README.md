@@ -7,6 +7,8 @@ dengan **CVSS + EPSS + kritikalitas aset (+ CISA KEV)**, dilacak lewat **workflo
 
 Stack: Java 21 · Spring Boot 3.5 · Spring Data JPA · Flyway · PostgreSQL (H2 untuk demo/test) · dashboard web tanpa dependensi (vanilla JS + SVG).
 
+**Live demo:** https://dashboard-vulner.ariantoekaputra.com (read-only, data contoh)
+
 ## Tampilan
 
 ![Ringkasan dashboard](docs/dashboard-overview.png)
