@@ -1,0 +1,52 @@
+{
+  "@programName": "ZAP",
+  "@version": "2.15.0",
+  "site": [
+    {
+      "@name": "https://portal.demo.local",
+      "@host": "portal.demo.local",
+      "alerts": [
+        {
+          "pluginid": "40012",
+          "alertRef": "40012",
+          "alert": "Cross Site Scripting (Reflected)",
+          "name": "Cross Site Scripting (Reflected)",
+          "riskcode": "3",
+          "confidence": "2",
+          "riskdesc": "High (Medium)",
+          "desc": "<p>Cross-site Scripting (XSS) is an attack technique that involves echoing attacker-supplied code into a user's browser instance.</p>",
+          "instances": [
+            {"uri": "https://portal.demo.local/search", "method": "GET", "param": "q", "attack": "</p><script>alert(1);</script><p>"},
+            {"uri": "https://portal.demo.local/profile", "method": "GET", "param": "name"}
+          ],
+          "count": "2",
+          "solution": "<p>Validate all input and encode output according to context.</p>",
+          "cweid": "79",
+          "wascid": "8"
+        },
+        {
+          "pluginid": "10038",
+          "alertRef": "10038-1",
+          "alert": "Content Security Policy (CSP) Header Not Set",
+          "name": "Content Security Policy (CSP) Header Not Set",
+          "riskcode": "2",
+          "confidence": "3",
+          "desc": "<p>Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks.</p>",
+          "instances": [{"uri": "https://portal.demo.local/", "method": "GET"}],
+          "solution": "<p>Ensure that your web server sets the Content-Security-Policy header.</p>",
+          "cweid": "693"
+        },
+        {
+          "pluginid": "10054",
+          "alertRef": "10054-1",
+          "name": "Cookie without SameSite Attribute",
+          "riskcode": "1",
+          "desc": "<p>A cookie has been set without the SameSite attribute.</p>",
+          "instances": [{"uri": "https://portal.demo.local/login", "method": "POST", "param": "session"}],
+          "solution": "<p>Ensure that the SameSite attribute is set to either 'lax' or 'strict'.</p>",
+          "cweid": "1275"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: vulndash
+      POSTGRES_USER: vulndash
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-vulndash}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vulndash -d vulndash"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      DB_URL: jdbc:postgresql://db:5432/vulndash
+      DB_USER: vulndash
+      DB_PASSWORD: ${DB_PASSWORD:-vulndash}
+      # WAJIB diisi (mis. di file .env): openssl rand -hex 24
+      VULNDASH_API_KEY: ${VULNDASH_API_KEY:?isi VULNDASH_API_KEY di file .env}
+      VULNDASH_ENRICHMENT_ENABLED: ${VULNDASH_ENRICHMENT_ENABLED:-true}
+      VULNDASH_DEMO_DATA: ${VULNDASH_DEMO_DATA:-false}
+    volumes:
+      - reports:/app/reports
+
+volumes:
+  pgdata:
+  reports:

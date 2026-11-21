@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/vulndash}
+    username: ${DB_USER:vulndash}
+    password: ${DB_PASSWORD:vulndash}

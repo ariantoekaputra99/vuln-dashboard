@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: vuln-dashboard
+  datasource:
+    # Default: H2 in-memory (mode PostgreSQL) supaya bisa langsung jalan.
+    # Untuk PostgreSQL gunakan profile "postgres" (lihat application-postgres.yml / docker-compose).
+    url: jdbc:h2:mem:vulndash;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password: ""
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+server:
+  port: 8080
+  error:
+    include-message: never
+    include-stacktrace: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+vulndash:
+  security:
+    # Header X-API-Key wajib untuk operasi tulis (upload scan, ubah status, dll).
+    # WAJIB diganti lewat env VULNDASH_API_KEY di production.
+    api-key: ${VULNDASH_API_KEY:dev-key-change-me}
+    # true = endpoint GET juga butuh API key
+    protect-reads: ${VULNDASH_PROTECT_READS:false}
+  sla:
+    # SLA remediasi (hari) berdasarkan severity
+    critical-days: 7
+    high-days: 30
+    medium-days: 90
+    low-days: 180
+    info-days: 365
+  scoring:
+    # Bobot skor prioritas (total maksimum 100)
+    cvss-weight: 50        # CVSS 0-10 -> 0-50
+    epss-weight: 30        # EPSS 0-1  -> 0-30
+    criticality-weight: 20 # kritikalitas aset -> 0-20
+    kev-floor: 90          # temuan di CISA KEV minimal skor 90
+  enrichment:
+    enabled: ${VULNDASH_ENRICHMENT_ENABLED:false}
+    epss-url: https://api.first.org/data/v1/epss
+    kev-url: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json
+    timeout-seconds: 10
+    # cron refresh harian (UTC)
+    cron: "0 30 1 * * *"
+  report:
+    directory: ${VULNDASH_REPORT_DIR:./reports}
+    schedule-enabled: ${VULNDASH_REPORT_SCHEDULE:true}
+    # Setiap Senin 02:00 UTC
+    cron: "0 0 2 * * MON"
+  demo-data: ${VULNDASH_DEMO_DATA:false}
