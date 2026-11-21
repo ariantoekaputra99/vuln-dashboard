@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vulnerability Management Dashboard</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo" aria-hidden="true">&#9888;</span> VulnDash</div>
+    <nav id="nav">
+      <a href="#overview" data-view="overview">Ringkasan</a>
+      <a href="#findings" data-view="findings">Temuan</a>
+      <a href="#assets" data-view="assets">Aset</a>
+      <a href="#reports" data-view="reports">Laporan</a>
+      <a href="#upload" data-view="upload">Upload Scan</a>
+    </nav>
+    <button id="btn-access" class="btn ghost" type="button">Akses API</button>
+  </header>
+
+  <section id="access-panel" class="access hidden">
+    <label>API Key <input id="in-key" type="password" autocomplete="off" placeholder="X-API-Key (untuk operasi tulis)"></label>
+    <label>Nama <input id="in-actor" type="text" placeholder="nama Anda (tercatat di riwayat)"></label>
+    <button id="btn-save-access" class="btn" type="button">Simpan (hanya sesi ini)</button>
+  </section>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+  <main id="app"></main>
+
+  <aside id="drawer" class="drawer hidden" aria-label="Detail temuan">
+    <div class="drawer-inner" id="drawer-body"></div>
+  </aside>
+  <div id="scrim" class="scrim hidden"></div>
+
+  <script src="js/demo-api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
